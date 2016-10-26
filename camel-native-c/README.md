@@ -1,0 +1,1 @@
+nm -D libc-calculator.so
