@@ -31,5 +31,5 @@ Run the following commands from a terminal window.
 
 ```
 ~$ cd $PROJECT_ROOT
-~$ mvn camel:run
+~$ mvn -Prun test -Djni4net.home=<JNI4NET_HOME> -Dvisual-studio.home=<VISUAL_STUDIO_HOME> -Ddll.path=<DLL_PATH>
 ```

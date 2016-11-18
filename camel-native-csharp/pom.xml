@@ -27,6 +27,10 @@ limitations under the License.
   <artifactId>camel-native-csharp</artifactId>
 
   <name>Camel Native Example: C#</name>
+  
+  <properties>
+    <jni4net.version>0.8.8.0</jni4net.version>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -46,14 +50,15 @@ limitations under the License.
       <artifactId>slf4j-simple</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>net.sf.jni4net</groupId>
+      <artifactId>jni4net.j</artifactId>
+      <version>${jni4net.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-maven-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -119,42 +124,49 @@ limitations under the License.
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <id>copy-libs</id>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <phase>prepare-package</phase>
-            <configuration>
-              <outputDirectory>${basedir}/target/bin</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${jni4net.home}/lib</directory>
-                  <includes>
-                    <include>*.jar</include>
-                    <include>*.dll</include>
-                  </includes>
-                  <filtering>false</filtering>
-                </resource>
-                <resource>
-                  <directory>${basedir}/target/jni4net</directory>
-                  <includes>
-                    <include>*.jar</include>
-                    <include>*.dll</include>
-                  </includes>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
+  
+  <profiles>
+    <profile>
+      <id>run</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+              <execution>
+                <id>run</id>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <phase>test</phase>
+                <configuration>
+                  <target>
+                    <copy toDir="${basedir}/target/bin" flatten="true">
+                      <path>
+                        <fileset dir="${jni4net.home}/lib" includes="*.jar,*.dll"/>
+                        <fileset dir="${basedir}/target/jni4net" includes="*.jar,*.dll"/>
+                        <pathelement location="${dll.path}"/>
+                        <pathelement path="${toString:maven.runtime.classpath}"/>
+                      </path>
+                    </copy>
+                    <java classname="org.apache.camel.spring.Main" fork="true">
+                      <classpath>
+                        <dirset dir="${basedir}/target" includes="classes,test-classes"/>
+                        <fileset dir="${basedir}/target/bin" includes="*.jar"/>
+                      </classpath>
+                    </java>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   
 </project>

@@ -24,7 +24,7 @@ limitations under the License.
   <bean id="bridgeInitializer" class="org.apache.camel.examples.jni4net.BridgeInitializer" init-method="start" destroy-method="stop">
     <property name="assemblies">
       <util:list>
-        <value>./target/bin/csharp-calculator.j4n.dll</value>
+        <value>./target/bin/MathLibrary.j4n.dll</value>
       </util:list>
     </property>
   </bean>
