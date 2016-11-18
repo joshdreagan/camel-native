@@ -1,4 +1,4 @@
-# Camel Native Example: C\#
+# Camel Native Example: C&#35;
 
 Examples for calling native C# libraries via Camel.
 
