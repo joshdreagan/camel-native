@@ -136,33 +136,24 @@ limitations under the License.
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
             <version>1.8</version>
-            <executions>
-              <execution>
-                <id>run</id>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <phase>test</phase>
-                <configuration>
-                  <target>
-                    <copy toDir="${basedir}/target/bin" flatten="true">
-                      <path>
-                        <fileset dir="${jni4net.home}/lib" includes="*.jar,*.dll"/>
-                        <fileset dir="${basedir}/target/jni4net" includes="*.jar,*.dll"/>
-                        <pathelement location="${dll.path}"/>
-                        <pathelement path="${toString:maven.runtime.classpath}"/>
-                      </path>
-                    </copy>
-                    <java classname="org.apache.camel.spring.Main" fork="true">
-                      <classpath>
-                        <dirset dir="${basedir}/target" includes="classes,test-classes"/>
-                        <fileset dir="${basedir}/target/bin" includes="*.jar"/>
-                      </classpath>
-                    </java>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
+            <configuration>
+              <target>
+                <copy toDir="${basedir}/target/bin" flatten="true">
+                  <path>
+                    <fileset dir="${jni4net.home}/lib" includes="*.jar,*.dll"/>
+                    <fileset dir="${basedir}/target/jni4net" includes="*.jar,*.dll"/>
+                    <pathelement location="${dll.path}"/>
+                    <pathelement path="${toString:maven.runtime.classpath}"/>
+                  </path>
+                </copy>
+                <java classname="org.apache.camel.spring.Main" fork="true">
+                  <classpath>
+                    <dirset dir="${basedir}/target" includes="classes,test-classes"/>
+                    <fileset dir="${basedir}/target/bin" includes="*.jar"/>
+                  </classpath>
+                </java>
+              </target>
+            </configuration>
           </plugin>
         </plugins>
       </build>

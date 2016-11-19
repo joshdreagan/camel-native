@@ -31,5 +31,5 @@ Run the following commands from a terminal window.
 
 ```
 ~$ cd $PROJECT_ROOT
-~$ mvn -Prun test -Djni4net.home=<JNI4NET_HOME> -Dvisual-studio.home=<VISUAL_STUDIO_HOME> -Ddll.path=<DLL_PATH>
+~$ mvn -Prun antrun:run -Djni4net.home=<JNI4NET_HOME> -Dvisual-studio.home=<VISUAL_STUDIO_HOME> -Ddll.path=<DLL_PATH>
 ```
